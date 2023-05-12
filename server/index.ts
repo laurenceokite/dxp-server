@@ -12,6 +12,9 @@ async function startServer() {
   const app = express()
 
   app.use(compression())
+  app.use(express.json());
+  app.use(express.urlencoded());
+
 
   if (isProduction) {
     const sirv = (await import('sirv')).default
@@ -27,9 +30,10 @@ async function startServer() {
     app.use(viteDevMiddleware)
   }
 
-  app.get('*', async (req, res, next) => {
+  app.post('*', async (req, res, next) => {
     const pageContextInit = {
-      urlOriginal: req.originalUrl
+      urlOriginal: req.originalUrl,
+      pageData: req.body
     }
     const pageContext = await renderPage(pageContextInit)
     const { httpResponse } = pageContext
@@ -37,7 +41,7 @@ async function startServer() {
     const { body, statusCode, contentType, earlyHints } = httpResponse
     if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) })
     res.status(statusCode).type(contentType).send(body)
-  })
+  });
 
   const port = process.env.PORT || 3000
   app.listen(port)

@@ -20,6 +20,19 @@ type Component = ComponentPublicInstance // https://stackoverflow.com/questions/
 type Page = Component
 type PageProps = {}
 
+export type DxpWidget = {
+  [key: symbol]: {},
+  Type: number
+}
+
+export type DxpPageResource = {
+  ID: number,
+  Title: string,
+  Description: string,
+  Slug: string,
+  Widgets: DxpWidget[]
+}
+
 export type PageContextCustom = {
   Page: Page
   pageProps?: PageProps
@@ -29,7 +42,8 @@ export type PageContextCustom = {
       title?: string
       description?: string
     }
-  }
+  },
+  pageData: DxpPageResource
 }
 
 type PageContextServer = PageContextBuiltIn<Page> & PageContextCustom

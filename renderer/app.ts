@@ -1,5 +1,5 @@
 import { createSSRApp, defineComponent, h } from 'vue'
-import PageShell from './PageShell.vue'
+import App from './App.vue'
 import { setPageContext } from './usePageContext'
 import type { Component, PageContext, PageProps } from './types'
 
@@ -9,7 +9,7 @@ function createApp(Page: Component, pageProps: PageProps | undefined, pageContex
   const PageWithLayout = defineComponent({
     render() {
       return h(
-        PageShell,
+        App,
         {},
         {
           default() {
